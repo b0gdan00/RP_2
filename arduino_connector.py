@@ -17,7 +17,8 @@ class ArduinoSerial:
             time.sleep(2)  # Wait for serial initialization
             print(f"Connected to Arduino on {self.port}")
         except serial.SerialException as e:
-            raise RuntimeError(f"Failed to open serial port {self.port}: {e}")
+            # raise RuntimeError(f"Failed to open serial port {self.port}: {e}")
+            pass
 
     @staticmethod
     def find_arduino_port():
