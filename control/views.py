@@ -87,6 +87,8 @@ def update_heater(request):
             heater = Mechanism.objects.get(name="heater")
             heater.status = heater_status
             heater.normal_value = heater_value
+            if heater_status == False: heater.off()
+            else: heater.on()
             heater.save()
             return JsonResponse({'status': 'success'})
         except Exception as e:
@@ -127,6 +129,8 @@ def update_co2(request):
             co2 = Mechanism.objects.get(name="co2")
             co2.status = status
             co2.normal_value = value
+            if status == False: co2.off()
+            else: co2.on()
             co2.save()
             return JsonResponse({'status': 'success'})
         except Exception as e:
@@ -147,6 +151,8 @@ def update_pump(request):
             pump.status = status
             pump.normal_value = value
             pump.period = data.get('period')
+            if status == False: pump.off()
+            else: pump.on()
             pump.save()
             return JsonResponse({'status': 'success'})
         except Exception as e:
