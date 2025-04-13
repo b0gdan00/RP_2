@@ -40,66 +40,24 @@
                     <div class="col-2">
                         {% include 'parameters/heater.html' %}
                     </div>
+                    <div class="col-2">
+                        {% include 'parameters/light.html' %}
+                    </div>
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-2">
+                        {% include 'parameters/co2.html' %}
+                    </div>
+                    <div class="col-2">
+                        {% include 'parameters/pump.html' %}
+                    </div>
                 </div>
             </center>
         </div>
     </div>
 
 </div>
-
-<script>
-    $(document).ready(function () {
-        const toggleButtons = $('.btn-check');
-
-        // Добавление классов bg-success и bg-secondary при переключении кнопок
-        toggleButtons.on('change', function () {
-            const button = $(this);
-            const isActive = button.prop('checked');
-            const label = $(`label[for="${button.attr('id')}"]`);
-
-            if (isActive) {
-                label.addClass('bg-success').removeClass('bg-secondary');
-            } else {
-                label.addClass('bg-secondary').removeClass('bg-success');
-            }
-
-            // Обновление модели на сервере
-            $.ajax({
-                url: '/update_toggle_state/',
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken') // Для Django
-                },
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    toggle_id: button.attr('id'),
-                    state: isActive
-                }),
-                success: function () {
-                    console.log('Состояние переключателя успешно обновлено');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ошибка при обновлении состояния переключателя:', error);
-                }
-            });
-        });
-
-        // Функция для получения CSRF токена (Django)
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = $.trim(cookies[i]);
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-    });
-</script>
 
 {% endblock %}

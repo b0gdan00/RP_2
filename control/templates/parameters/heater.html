@@ -1,27 +1,87 @@
-<div class="card border-dark mb-3"
-    style="max-width: 18rem;">
+<div class="card border-dark mb-3" style="max-width: 18rem;" id="heater_card">
     <div class="card-header">🔥 Heating element</div>
     <div class="card-body text-dark">
-        <div class="btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check"
-                name="btnradio" id="btnradio1"
+
+        <!-- Перемикач увімкнення/вимкнення -->
+        <div class="btn-group" role="group" aria-label="Heater toggle buttons">
+            <input type="radio" class="btn-check" name="btnradio_heater"
+                id="btn_heater_on"
                 autocomplete="off" {% if heater.status %}checked{% endif %}>
-            <label class="btn btn-primary"
-                for="btnradio1">on</label>
+            <label for="btn_heater_on"
+                class="btn {% if heater.status %}btn-success{% else %}btn-secondary{% endif %}">
+                on
+            </label>
 
-            <input type="radio" class="btn-check"
-                name="btnradio" id="btnradio2"
+            <input type="radio" class="btn-check" name="btnradio_heater"
+                id="btn_heater_off"
                 autocomplete="off" {% if not heater.status %}checked{% endif %}>
-            <label class="btn btn-danger"
-                for="btnradio2">off</label>
-
-        </div><br>
-        <label for="heating"
-            class="form-label mt-2">{{heater.normal_value}}</label>
-        <input type="range" class="form-range" value="{{heater.normal_value}}"
-            min="{{heater.min_value}}" max="{{heater.max_value}}"
-            id="heating">
+            <label for="btn_heater_off"
+                class="btn {% if heater.status %}btn-secondary{% else %}btn-danger{% endif %}">
+                off
+            </label>
+        </div>
+        <br>
+        <!-- Повзунок температури -->
+        <label for="heating" class="form-label mt-3" id="heating_label">
+            {{ heater.normal_value }}
+        </label><span> °C</span>
+        <input type="range"
+            class="form-range"
+            id="heating"
+            min="{{ heater.min_value }}"
+            max="{{ heater.max_value }}"
+            value="{{ heater.normal_value }}">
     </div>
+
+    <!-- Сценарій керування -->
+    <script>
+        $(document).ready(function () {
+            function sendHeaterUpdate() {
+                const heaterStatus = $('#btn_heater_on').is(':checked');
+                const heaterValue = $('#heating').val();
+
+                $.ajax({
+                    url: '/update_heater/', // Ендпоінт
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        status: heaterStatus,
+                        value: parseInt(heaterValue)
+                    }),
+                    success: function (response) {
+                        console.log('Heater updated:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating heater:', error);
+                    }
+                });
+            }
+
+            // Перемикач on/off
+            $('.btn-check').on('change', function () {
+                const isChecked = $('#btn_heater_on').is(':checked');
+
+                if (isChecked) {
+                    $('#btn_heater_on').next('label').addClass('btn-success').removeClass('btn-secondary');
+                    $('#btn_heater_off').next('label').addClass('btn-secondary').removeClass('btn-danger');
+                } else {
+                    $('#btn_heater_on').next('label').addClass('btn-secondary').removeClass('btn-success');
+                    $('#btn_heater_off').next('label').addClass('btn-danger').removeClass('btn-secondary');
+                }
+
+                sendHeaterUpdate();
+            });
+
+            // Оновлення значення на екрані
+            $('#heating').on('input', function () {
+                const newVal = $(this).val();
+                $('#heating_label').text(newVal);
+            });
+
+            // Надсилання лише при відпусканні миші або пальця
+            $('#heating').on('mouseup touchend', function () {
+                sendHeaterUpdate();
+            });
+        });
+    </script>
 </div>

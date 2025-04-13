@@ -1,0 +1,110 @@
+<div class="card border-dark mb-3" style="max-width: 18rem;" id="pump_card">
+    <div class="card-header">💧 Pump</div>
+    <div class="card-body text-dark">
+
+        <!-- Перемикач увімкнення/вимкнення -->
+        <div class="btn-group" role="group" aria-label="Pump toggle buttons">
+            <input type="radio" class="btn-check" name="btnradio_pump"
+                   id="btn_pump_on"
+                   autocomplete="off" {% if pump.status %}checked{% endif %}>
+            <label for="btn_pump_on"
+                   class="btn {% if pump.status %}btn-success{% else %}btn-secondary{% endif %}">
+                on
+            </label>
+
+            <input type="radio" class="btn-check" name="btnradio_pump"
+                   id="btn_pump_off"
+                   autocomplete="off" {% if not pump.status %}checked{% endif %}>
+            <label for="btn_pump_off"
+                   class="btn {% if pump.status %}btn-secondary{% else %}btn-danger{% endif %}">
+                off
+            </label>
+        </div>
+        <br>
+
+        <!-- Повзунок часу -->
+        <span>Time: </span><label for="pump_slider" class="form-label mt-3"
+                                  id="pump_label_time">
+            {{ pump.normal_value }}
+        </label><span> minutes</span>
+        <input type="range"
+               class="form-range"
+               id="pump_slider"
+               min="{{ pump.min_value }}"
+               max="{{ pump.max_value }}"
+               value="{{ pump.normal_value }}">
+
+        <!-- Повзунок періоду -->
+        <span>Period: </span><label for="pump_slider_period" class="form-label mt-3"
+                                    id="pump_label_period">
+            {{ pump.period }}
+        </label><span> hours</span>
+        <input type="range"
+               class="form-range"
+               id="pump_slider_period"
+               min="1"
+               max="24"
+               value="{{ pump.period }}">
+    </div>
+
+    <!-- Сценарій керування Pump -->
+    <script>
+        $(document).ready(function () {
+            function sendPumpUpdate() {
+                const pumpStatus = $('#btn_pump_on').is(':checked');
+                const pumpValue = $('#pump_slider').val();
+                const pumpPeriod = $('#pump_slider_period').val();
+
+                $.ajax({
+                    url: '/update_pump/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        status: pumpStatus,
+                        value: parseInt(pumpValue),
+                        period: parseInt(pumpPeriod)
+                    }),
+                    success: function (response) {
+                        console.log('Pump updated:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating pump:', error);
+                    }
+                });
+            }
+
+            // ON/OFF toggle
+            $('#btn_pump_on, #btn_pump_off').on('change', function () {
+                const isChecked = $('#btn_pump_on').is(':checked');
+
+                if (isChecked) {
+                    $('#btn_pump_on').next('label').addClass('btn-success').removeClass('btn-secondary');
+                    $('#btn_pump_off').next('label').addClass('btn-secondary').removeClass('btn-danger');
+                } else {
+                    $('#btn_pump_on').next('label').addClass('btn-secondary').removeClass('btn-success');
+                    $('#btn_pump_off').next('label').addClass('btn-danger').removeClass('btn-secondary');
+                }
+
+                sendPumpUpdate();
+            });
+
+            // Time label update
+            $('#pump_slider').on('input', function () {
+                $('#pump_label_time').text($(this).val());
+            });
+
+            $('#pump_slider').on('mouseup touchend', function () {
+                sendPumpUpdate();
+            });
+
+            // Period label update
+            $('#pump_slider_period').on('input', function () {
+                $('#pump_label_period').text($(this).val());
+            });
+
+            $('#pump_slider_period').on('mouseup touchend', function () {
+                sendPumpUpdate();
+            });
+        });
+    </script>
+</div>
