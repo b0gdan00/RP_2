@@ -1,58 +1,74 @@
 {% extends "wrapper.html" %}
 {% block content %}
 
-<div class="row mx-1 py-1" style="height: 100vh;">
-    <div class="col-5 border border-dark m-0 p-0 ">
-        <div class="border border-dark text-white bg-dark">
-            <h3>CONTROL PANEL</h3>
-        </div>
-        <div class="card bg-secondary my-3 mx-1">
-            <div class="card-header bg-warning">Light<span class="badge rounded-pill bg-primary mx-5"></span></div>
-            <div class="card-body">
-                <div class="btn-group" role="group"
-                    aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio"
-                        id="btnradio1" autocomplete="off" checked>
-                    <label class="btn btn-outline-secondary"
-                        for="btnradio1">ON</label>
-                    <input type="radio" class="btn-check" name="btnradio"
-                        id="btnradio2" autocomplete="off" checked>
-                    <label class="btn btn-outline-secondary"
-                        for="btnradio2">MANUALY</label>
-                    <input type="radio" class="btn-check" name="btnradio"
-                        id="btnradio3" autocomplete="off" checked>
-                    <label class="btn btn-outline-secondary"
-                        for="btnradio3">OFF</label>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    <div class="col-7 border border-dark m-0 p-0">
+<div class="container">
 
-    </div>
+    <center>
+        <div class="content" style="height: 55vh;"></div>
+    </center>
+
 </div>
-<script>
-    function updateButtonStyles() {
-      document.querySelectorAll('.btn-group label').forEach(label => {
-        label.classList.remove('btn-primary');
-        label.classList.add('btn-outline-secondary');
-      });
-  
-      const checkedRadio = document.querySelector('.btn-check:checked');
-      if (checkedRadio) {
-        const selectedLabel = document.querySelector(`label[for="${checkedRadio.id}"]`);
-        selectedLabel.classList.remove('btn-outline-secondary');
-        selectedLabel.classList.add('btn-primary');
-      }
-    }
-  
-    // Викликаємо при зміні
-    document.querySelectorAll('.btn-check').forEach((radio) => {
-      radio.addEventListener('change', updateButtonStyles);
-    });
-  
-    // Викликаємо одразу при завантаженні
-    window.addEventListener('DOMContentLoaded', updateButtonStyles);
-  </script>
+
+<div class="parameters w-100">
+
+    <div class="row" style="height: 45vh;">
+        <div class="col-2 p-0 m-0 border border-dark ps-3">
+            <center>
+                <h2>Control</h2>
+            </center>
+            <div class="ps-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox"
+                        id="flexSwitchCheckDefault">
+                    <label class="form-check-label"
+                        for="flexSwitchCheckDefault">Debug</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox"
+                        id="flexSwitchCheckDefault">
+                    <label class="form-check-label"
+                        for="flexSwitchCheckDefault">Safe mode</label>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+        <div class="col-10 border border-dark p-0 m-0">
+            <center>
+                <h2 class="text-white bg-dark w-100">Parameters</h2>
+                <div class="row p-3">
+                    <div class="col-2">
+                        <div class="card border-dark mb-3"
+                            style="max-width: 18rem;">
+                            <div class="card-header">🔥 Heating element</div>
+                            <div class="card-body text-dark">
+                                <div class="btn-group"
+                                    role="group"
+                                    aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check"
+                                        name="btnradio" id="btnradio1"
+                                        autocomplete="off" checked>
+                                    <label class="btn btn-primary"
+                                        for="btnradio1">on</label>
+
+                                    <input type="radio" class="btn-check"
+                                        name="btnradio" id="btnradio2"
+                                        autocomplete="off">
+                                    <label class="btn btn-danger"
+                                        for="btnradio2">off</label>
+
+                                </div>
+                                <label for="heating" class="form-label mt-2">Example range</label>
+                                <input type="range" class="form-range"
+                                    id="heating">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}
