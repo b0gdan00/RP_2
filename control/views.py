@@ -2,6 +2,8 @@ from django.shortcuts import render
 from arduino_connector import ArduinoSerial
 from django.http import JsonResponse
 from .models import Sensor, Mechanism
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 arduino = ArduinoSerial()
 
@@ -46,10 +48,29 @@ def get_planty(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
+@csrf_exempt
+def update_heater_value(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            heater_value = data.get('heater_value')
+
+            # Update the heater value in the database
+            heater = Mechanism.objects.get(name="heater")
+            heater.normal_value = heater_value
+            heater.save()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 def index(request):
+
+    heater = Mechanism.objects.get(name="heater")
 
     context = {
         "name": "Control",
+        "heater": heater,
     }
 
     return render(request, 'index.html', context)

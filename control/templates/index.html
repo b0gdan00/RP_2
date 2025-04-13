@@ -38,31 +38,7 @@
                 <h2 class="text-white bg-dark w-100">Parameters</h2>
                 <div class="row p-3">
                     <div class="col-2">
-                        <div class="card border-dark mb-3"
-                            style="max-width: 18rem;">
-                            <div class="card-header">🔥 Heating element</div>
-                            <div class="card-body text-dark">
-                                <div class="btn-group"
-                                    role="group"
-                                    aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check"
-                                        name="btnradio" id="btnradio1"
-                                        autocomplete="off" checked>
-                                    <label class="btn btn-primary"
-                                        for="btnradio1">on</label>
-
-                                    <input type="radio" class="btn-check"
-                                        name="btnradio" id="btnradio2"
-                                        autocomplete="off">
-                                    <label class="btn btn-danger"
-                                        for="btnradio2">off</label>
-
-                                </div>
-                                <label for="heating" class="form-label mt-2">Example range</label>
-                                <input type="range" class="form-range"
-                                    id="heating">
-                            </div>
-                        </div>
+                        {% include 'parameters/heater.html' %}
                     </div>
                 </div>
             </center>
@@ -70,5 +46,60 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        const toggleButtons = $('.btn-check');
+
+        // Добавление классов bg-success и bg-secondary при переключении кнопок
+        toggleButtons.on('change', function () {
+            const button = $(this);
+            const isActive = button.prop('checked');
+            const label = $(`label[for="${button.attr('id')}"]`);
+
+            if (isActive) {
+                label.addClass('bg-success').removeClass('bg-secondary');
+            } else {
+                label.addClass('bg-secondary').removeClass('bg-success');
+            }
+
+            // Обновление модели на сервере
+            $.ajax({
+                url: '/update_toggle_state/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken') // Для Django
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    toggle_id: button.attr('id'),
+                    state: isActive
+                }),
+                success: function () {
+                    console.log('Состояние переключателя успешно обновлено');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Ошибка при обновлении состояния переключателя:', error);
+                }
+            });
+        });
+
+        // Функция для получения CSRF токена (Django)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = $.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
 
 {% endblock %}

@@ -1,0 +1,27 @@
+<div class="card border-dark mb-3"
+    style="max-width: 18rem;">
+    <div class="card-header">🔥 Heating element</div>
+    <div class="card-body text-dark">
+        <div class="btn-group"
+            role="group"
+            aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check"
+                name="btnradio" id="btnradio1"
+                autocomplete="off" {% if heater.status %}checked{% endif %}>
+            <label class="btn btn-primary"
+                for="btnradio1">on</label>
+
+            <input type="radio" class="btn-check"
+                name="btnradio" id="btnradio2"
+                autocomplete="off" {% if not heater.status %}checked{% endif %}>
+            <label class="btn btn-danger"
+                for="btnradio2">off</label>
+
+        </div><br>
+        <label for="heating"
+            class="form-label mt-2">{{heater.normal_value}}</label>
+        <input type="range" class="form-range" value="{{heater.normal_value}}"
+            min="{{heater.min_value}}" max="{{heater.max_value}}"
+            id="heating">
+    </div>
+</div>
