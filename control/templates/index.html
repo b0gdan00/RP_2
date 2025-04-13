@@ -1,253 +1,58 @@
 {% extends "wrapper.html" %}
 {% block content %}
 
-<div class="container">
-
-    <center>
-        <div class="content" style="height: 530px;"></div>
-    </center>
-
-</div>
-
-<div class="parameters w-100">
-
-    <div class="row">
-        <div class="col-2 p-0 m-0 border border-dark ps-3">
-            <center>
-                <h2>Control</h2>
-            </center>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox"
-                    id="flexSwitchCheckDefault">
-                <label class="form-check-label"
-                    for="flexSwitchCheckDefault">Debug</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox"
-                    id="flexSwitchCheckDefault">
-                <label class="form-check-label"
-                    for="flexSwitchCheckDefault">Safe mode</label>
-            </div>
-            <hr>
-            <span class="mt-5">Control preset</span><br>
-            <div class="btn-group me-2" role="group" aria-label="First group">
-
-                <button type="button" class="btn btn-success">1</button>
-                <button type="button" class="btn btn-secondary">2</button>
-                <button type="button" class="btn btn-secondary">3</button>
-                <button type="button" class="btn btn-secondary">4</button>
-            </div>
-
+<div class="row mx-1 py-1" style="height: 100vh;">
+    <div class="col-5 border border-dark m-0 p-0 ">
+        <div class="border border-dark text-white bg-dark">
+            <h3>CONTROL PANEL</h3>
         </div>
-        <div class="col-10 border border-dark p-0 m-0">
-            <center>
-                <h2 class="text-white bg-dark w-100">Parameters</h2>
-                <div class="row p-3">
-                    <div class="col-2">
-                        <h4>Temterature</h4>
-                        <span>°C</span>
-                        <hr>
-                        <div class="btn-group mb-3" role="group"
-                            aria-label="Basic example">
-                            <button type="button"
-                                class="btn btn-danger">OFF</button>
-                            <button type="button"
-                                class="btn btn-secondary">MANUALY</button>
-                            <button type="button"
-                                class="btn btn-primary">ON</button>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="number"
-                                    class="form-control mb-3"
-                                    placeholder="Temterature" id="temp_value">
-                            </div><div class="col-6">
-                                <input type="number"
-                                    class="form-control mb-3"
-                                    placeholder="Humidity" id="humidity_value">
-                            </div>
-                        </div>
-
-                        <input type="range" class="form-range"
-                            id="T"
-                            step="1" value="50">
-                    </div>
-                    <div class="col-2">
-                        <h4>Illumination</h4>
-                        <span>Lm</span>
-                        <hr>
-                        <div class="btn-group mb-3" role="group"
-                            aria-label="Basic example">
-                            <button type="button"
-                                class="btn btn-danger">OFF</button>
-                            <button type="button"
-                                class="btn btn-secondary">MANUALY</button>
-                            <button type="button"
-                                class="btn btn-primary">ON</button>
-                        </div>
-                        <input type="number" min="0" max="10000"
-                            class="form-control mb-3"
-                            placeholder="Illumination value" id="lm_value">
-                        <input type="range" class="form-range"
-                            id="Lm" step="1" value="50">
-                    </div>
-                    <div class="col-2">
-                        <h4>CO2</h4>
-                        <span>mgr/m3</span>
-                        <hr> <div class="btn-group mb-3" role="group"
-                            aria-label="Basic example">
-                            <button type="button"
-                                class="btn btn-danger">OFF</button>
-                            <button type="button"
-                                class="btn btn-secondary">MANUALY</button>
-                            <button type="button"
-                                class="btn btn-primary">ON</button>
-                        </div>
-                        <input type="number" min="0" max="10000"
-                            class="form-control mb-3"
-                            placeholder="CO2 value" id="co2_value">
-                        <input type="range" class="form-range"
-                            id="CO2"
-                            step="1" value="50">
-                    </div>
-                    <div class="col-2">
-                        <h4>Plant surface</h4>
-                        <span>%</span>
-                        <hr>
-                        <div class="btn-group mb-3" role="group"
-                            aria-label="Basic example">
-                            <button type="button"
-                                class="btn btn-danger">OFF</button>
-                            <button type="button"
-                                class="btn btn-secondary">MANUALY</button>
-                            <button type="button"
-                                class="btn btn-primary">ON</button>
-                        </div>
-                        <input type="number" min="0" max="10000"
-                            class="form-control mb-3"
-                            placeholder="Plant surface value" id="PS_value">
-                        <input type="range" class="form-range"
-                            id="PS"
-                            step="1" value="50">
-                    </div>
-                    <div class="col-4 ">
-
-                        <h4>Pump</h4>
-
-                        <div class="row ">
-                            <div class="col-6">
-                                <p>Duration</p>
-                                <hr>
-                                <input type="number" min="0" max="10000"
-                                    class="form-control mb-3"
-                                    placeholder="Pump duration value"
-                                    id="pump_duration_value">
-                                <input type="range" class="form-range"
-                                    id="pump-duration"
-                                    step="1" value="50">
-
-                            </div>
-                            <div class="col-6">
-                                <p>Period</p>
-                                <hr>
-                                <input type="number" min="0" max="10000"
-                                    class="form-control mb-3"
-                                    placeholder="Pump perios value"
-                                    id="pump_period_value">
-                                <input type="range" class="form-range"
-                                    id="pump-period"
-                                    step="1" value="50">
-                            </div>
-                        </div>
-
-                    </div>
-
+        <div class="card bg-secondary my-3 mx-1">
+            <div class="card-header bg-warning">Light<span class="badge rounded-pill bg-primary mx-5"></span></div>
+            <div class="card-body">
+                <div class="btn-group" role="group"
+                    aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio"
+                        id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary"
+                        for="btnradio1">ON</label>
+                    <input type="radio" class="btn-check" name="btnradio"
+                        id="btnradio2" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary"
+                        for="btnradio2">MANUALY</label>
+                    <input type="radio" class="btn-check" name="btnradio"
+                        id="btnradio3" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary"
+                        for="btnradio3">OFF</label>
                 </div>
-            </center>
+                
+            </div>
         </div>
     </div>
+    <div class="col-7 border border-dark m-0 p-0">
 
+    </div>
 </div>
-
 <script>
-    function fetchTemperature() {
-        fetch('/api/temperature/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.temperature) {
-                    document.getElementById("temp_value").value = data.temperature;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении температуры:', error);
-            });
+    function updateButtonStyles() {
+      document.querySelectorAll('.btn-group label').forEach(label => {
+        label.classList.remove('btn-primary');
+        label.classList.add('btn-outline-secondary');
+      });
+  
+      const checkedRadio = document.querySelector('.btn-check:checked');
+      if (checkedRadio) {
+        const selectedLabel = document.querySelector(`label[for="${checkedRadio.id}"]`);
+        selectedLabel.classList.remove('btn-outline-secondary');
+        selectedLabel.classList.add('btn-primary');
+      }
     }
-    function fetchHumidity() {
-        fetch('/api/humidity/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.humidity) {
-                    document.getElementById("humidity_value").value = data.humidity;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении влажности:', error);
-            });
-    }
-
-
-    function fetchIllumination() {
-        fetch('/api/illumination/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.illumination) {
-                    document.getElementById("lm_value").value = data.illumination;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении иллюминации:', error);
-            });
-    }
-    function fetchCO2() {
-        fetch('/api/co2/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.co2) {
-                    document.getElementById("co2_value").value = data.co2;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении CO2:', error);
-            });
-    }
-    function fetchPS() {
-        fetch('/api/planty/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.ps) {
-                    document.getElementById("PS_value").value = data.ps;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении PS:', error);
-            });
-    }
-    
-    
-    // Запрашивать каждые 3 секунды
-    setInterval(fetchTemperature, 3000);
-    setInterval(fetchIllumination, 3000);
-    setInterval(fetchHumidity, 3000);
-    setInterval(fetchCO2, 3000);
-    setInterval(fetchPS, 3000);
-    
-    // Запустить сразу при загрузке страницы
-    fetchTemperature();
-    fetchIllumination();
-    fetchHumidity();
-    fetchCO2();
-    fetchPS();
-    
-    </script>
-
+  
+    // Викликаємо при зміні
+    document.querySelectorAll('.btn-check').forEach((radio) => {
+      radio.addEventListener('change', updateButtonStyles);
+    });
+  
+    // Викликаємо одразу при завантаженні
+    window.addEventListener('DOMContentLoaded', updateButtonStyles);
+  </script>
 {% endblock %}
