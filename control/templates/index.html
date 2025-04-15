@@ -1,10 +1,27 @@
 {% extends "wrapper.html" %}
+{% load static %}
 {% block content %}
 
 <div class="container">
 
     <center>
-        <div class="content" style="height: 55vh;"></div>
+        <div class="content" style="height: 55vh; max-height: 55vh;">
+            <div class="row">
+                <div class="col-4 d-flex flex-column align-items-end">
+                    {% include 'includes/curent.html' %}
+                </div>
+                <div class="col-4">
+                    <img src="{% static 'control/img/image.png' %}" alt="logo"
+                        style="width: auto; height: 55vh; object-fit: cover;">
+                </div>
+                <div class="col-2">
+                    {% include 'includes/buttons/hand_control.html' %}
+                </div>
+                <div class="col-2">
+                    {% include 'includes/buttons/manual.html' %}
+                </div>
+            </div>
+        </div>
     </center>
 
 </div>
@@ -14,20 +31,16 @@
     <div class="row" style="height: 45vh;">
         <div class="col-2 p-0 m-0 border border-dark ps-3">
             <center>
-                <h2>Control</h2>
+                <h2>Properties</h2>
             </center>
             <div class="ps-3">
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox"
-                        id="flexSwitchCheckDefault">
-                    <label class="form-check-label"
-                        for="flexSwitchCheckDefault">Debug</label>
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Debug</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox"
-                        id="flexSwitchCheckDefault">
-                    <label class="form-check-label"
-                        for="flexSwitchCheckDefault">Safe mode</label>
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Safe mode</label>
                 </div>
             </div>
             <hr>
@@ -36,22 +49,21 @@
         <div class="col-10 border border-dark p-0 m-0">
             <center>
                 <h2 class="text-white bg-dark w-100">Parameters</h2>
-                <div class="row p-3">
+                <div class="row p-3 d-flex flex-row">
                     <div class="col-2">
-                        {% include 'parameters/heater.html' %}
+                        {% include 'includes/heater.html' %}
                     </div>
                     <div class="col-2">
-                        {% include 'parameters/light.html' %}
+                        {% include 'includes/light.html' %}
+                    </div>
+                    <div class="col-2">
+                        {% include 'includes/co2.html' %}
+                    </div>
+                    <div class="col-2">
+                        {% include 'includes/plant.html' %}
                     </div>
                     <div class="col-4">
-
-                    </div>
-
-                    <div class="col-2">
-                        {% include 'parameters/co2.html' %}
-                    </div>
-                    <div class="col-2">
-                        {% include 'parameters/pump.html' %}
+                        {% include 'includes/pump.html' %}
                     </div>
                 </div>
             </center>

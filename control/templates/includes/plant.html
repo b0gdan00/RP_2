@@ -1,0 +1,49 @@
+<div class="card border-success bg-dark text-white shadow-lg h-100" id="plant_card">
+    <div class="card-header border-white">Plant</div>
+    <div class="card-body text-white">
+
+        <span>S max </span><label for="humidity" class="form-label" id="humidity_label">
+            {{ plant.normal_value }}
+        </label><span> sm²</span>
+        <input type="range" class="form-range" id="humidity" min="{{ plant.min_value }}" max="{{ plant.max_value }}"
+            value="{{ plant.normal_value }}">
+    </div>
+
+    <!-- Сценарій керування -->
+    <script>
+        $(document).ready(function () {
+            function sendPlantUpdate() {
+                const plantStatus = $('#btn_plant_on').is(':checked');
+                const humidityValue = $('#humidity').val();
+
+                $.ajax({
+                    url: '/update_plant/', // Ендпоінт
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        status: plantStatus,
+                        value: parseInt(humidityValue)
+                    }),
+                    success: function (response) {
+                        console.log('Plant watering updated:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating plant watering:', error);
+                    }
+                });
+            }
+
+
+            // Оновлення значення вологості на екрані
+            $('#humidity').on('input', function () {
+                const newVal = $(this).val();
+                $('#humidity_label').text(newVal);
+            });
+
+            // Надсилання лише при відпусканні миші або пальця
+            $('#humidity').on('mouseup touchend', function () {
+                sendPlantUpdate();
+            });
+        });
+    </script>
+</div>

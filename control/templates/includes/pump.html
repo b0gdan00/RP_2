@@ -1,4 +1,4 @@
-<div class="card border-dark mb-3" style="max-width: 18rem;" id="pump_card">
+<div class="card border-dark shadow-lg" id="pump_card">
     <div class="card-header">💧 Pump</div>
     <div class="card-body text-dark">
 
@@ -22,29 +22,34 @@
         </div>
         <br>
 
-        <!-- Повзунок часу -->
-        <span>Time: </span><label for="pump_slider" class="form-label mt-3"
-                                  id="pump_label_time">
-            {{ pump.normal_value }}
-        </label><span> minutes</span>
-        <input type="range"
-               class="form-range"
-               id="pump_slider"
-               min="{{ pump.min_value }}"
-               max="{{ pump.max_value }}"
-               value="{{ pump.normal_value }}">
-
-        <!-- Повзунок періоду -->
-        <span>Period: </span><label for="pump_slider_period" class="form-label mt-3"
-                                    id="pump_label_period">
-            {{ pump.period }}
-        </label><span> hours</span>
-        <input type="range"
-               class="form-range"
-               id="pump_slider_period"
-               min="1"
-               max="24"
-               value="{{ pump.period }}">
+        <div class="row">
+            <div class="col-6">
+                <!-- Повзунок часу -->
+                <span>Time: </span><label for="pump_slider" class="form-label mt-3"
+                                      id="pump_label_time">
+                    {{ pump.normal_value }}
+                </label><span> min</span>
+                <input type="range"
+                       class="form-range"
+                       id="pump_slider"
+                       min="{{ pump.min_value }}"
+                       max="{{ pump.max_value }}"
+                       value="{{ pump.normal_value }}">
+            </div>
+            <div class="col-6">
+                <!-- Повзунок періоду -->
+                <span>Period: </span><label for="pump_slider_period" class="form-label mt-3"
+                                        id="pump_label_period">
+                    {{ pump.period }}
+                </label><span> hours</span>
+                <input type="range"
+                       class="form-range"
+                       id="pump_slider_period"
+                       min="1"
+                       max="24"
+                       value="{{ pump.period }}">
+            </div>
+        </div>
     </div>
 
     <!-- Сценарій керування Pump -->
