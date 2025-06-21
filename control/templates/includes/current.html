@@ -39,8 +39,10 @@
                     }
                 });
         }
-        fetchTemperature();
-        setInterval(fetchTemperature, 3000);
+        setTimeout(() => {
+            fetchTemperature();
+            setInterval(fetchTemperature, 3000);
+        }, 1000);
     </script>
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
