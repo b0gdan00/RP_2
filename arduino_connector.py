@@ -10,6 +10,7 @@ class ArduinoSerial:
         self.port = port if port else self.find_arduino_port()
 
         if not self.port:
+            self.ser = None
             raise ValueError("Arduino port not found!")
 
         try:
@@ -17,8 +18,8 @@ class ArduinoSerial:
             time.sleep(2)  # Wait for serial initialization
             print(f"Connected to Arduino on {self.port}")
         except serial.SerialException as e:
-            # raise RuntimeError(f"Failed to open serial port {self.port}: {e}")
-            pass
+            print(f"Failed to open serial port {self.port}: {e}")
+            self.ser = None
 
     @staticmethod
     def find_arduino_port():
@@ -35,6 +36,9 @@ class ArduinoSerial:
 
     def send_command(self, command):
         """Отправляет команду и ждёт один ответ"""
+        if not self.ser:
+            print("Serial connection not established.")
+            return None
         self.ser.write((command + '\n').encode())  # Отправка
         response = self.ser.readline().decode().strip()  # Чтение ответа
         return response
@@ -42,4 +46,5 @@ class ArduinoSerial:
 
     def close(self):
         """Закрывает соединение"""
-        self.ser.close()
+        if self.ser:
+            self.ser.close()

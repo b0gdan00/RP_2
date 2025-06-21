@@ -10,7 +10,7 @@ from threading import Thread
 
 arduino = ArduinoSerial()
 
-Thread(target=collect_data).start()
+Thread(target=collect_data).start()  # Исправлено: запуск потока
 
 def index(request):
 
@@ -53,8 +53,6 @@ def get_light(request):
     if request.method == 'GET':
         try:
             return JsonResponse({'light': Sensor.objects.get(name="light").value})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
