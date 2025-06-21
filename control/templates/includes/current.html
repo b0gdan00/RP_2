@@ -23,12 +23,25 @@
         fetchLight();
         setInterval(fetchLight, 3000);
     </script>
-    <li class="list-group-item d-flex justify-content-between align-items-start">
+    <li class="list-group-item d-flex justify-content-between align-items-start" id="temperature-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Temperature</div>
         </div>
-        <span class="badge text-bg-danger rounded-pill">21 <span>°C</span></span>
+        <span class="badge text-bg-danger rounded-pill" id="temperature-value">-- <span>°C</span></span>
     </li>
+    <script>
+        function fetchTemperature() {
+            fetch('/api/temperature/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.temperature !== undefined) {
+                        document.getElementById('temperature-value').innerHTML = `${data.temperature} <span>°C</span>`;
+                    }
+                });
+        }
+        fetchTemperature();
+        setInterval(fetchTemperature, 3000);
+    </script>
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Humidity</div>
