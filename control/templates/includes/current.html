@@ -16,7 +16,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.light !== undefined) {
-                        document.getElementById('light-value').innerHTML = `${data.light} <span>Lm</span>`;
+                        document.getElementById('light-value').innerHTML = `${data.light} <span>%</span>`;
                     }
                 });
         }

@@ -58,10 +58,16 @@ def get_light(request):
     if request.method == 'GET':
         try:
             sensor = Sensor.objects.get(name="light")
-            light = arduino.send_command("light")  # или нужная тебе команда
-            sensor.value = light
+            raw_light = arduino.send_command("light")  # или нужная тебе команда
+
+            # Конвертация: 68 (макс. свет) -> 100%, 800 (макс. темнота) -> 0%
+            min_val, max_val = 68, 800
+            percent = (max_val - float(raw_light)) / (max_val - min_val) * 100
+            percent = max(0, min(100, percent))  # Ограничить диапазон 0-100
+
+            sensor.value = percent
             sensor.save()
-            return JsonResponse({'light': light})
+            return JsonResponse({'light': percent})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
