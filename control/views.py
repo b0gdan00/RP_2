@@ -67,7 +67,7 @@ def get_light(request):
 
             sensor.value = round(percent,0)
             sensor.save()
-            return JsonResponse({'light': percent})
+            return JsonResponse({'light': round(percent,0)})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
