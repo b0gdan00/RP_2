@@ -65,7 +65,7 @@ def get_light(request):
             percent = (max_val - float(raw_light)) / (max_val - min_val) * 100
             percent = max(0, min(100, percent))  # Ограничить диапазон 0-100
 
-            sensor.value = percent
+            sensor.value = round(percent,0)
             sensor.save()
             return JsonResponse({'light': percent})
         except Exception as e:
