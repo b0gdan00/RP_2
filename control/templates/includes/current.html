@@ -8,58 +8,51 @@
         <div class="ms-2 me-auto">
             <div class="fw-bold">Light</div>
         </div>
-        <span class="badge text-bg-success rounded-pill" id="light-value">-- <span>Lm</span></span>
+        <span class="badge text-bg-success rounded-pill" id="light-value">-- <span>%</span></span>
     </li>
-    <script>
-        function fetchLight() {
-            fetch('/api/light/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.light !== undefined) {
-                        document.getElementById('light-value').innerHTML = `${data.light} <span>%</span>`;
-                    }
-                });
-        }
-        fetchLight();
-        setInterval(fetchLight, 3000);
-    </script>
     <li class="list-group-item d-flex justify-content-between align-items-start" id="temperature-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Temperature</div>
         </div>
         <span class="badge text-bg-danger rounded-pill" id="temperature-value">-- <span>°C</span></span>
     </li>
-    <script>
-        function fetchTemperature() {
-            fetch('/api/temperature/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.temperature !== undefined) {
-                        document.getElementById('temperature-value').innerHTML = `${data.temperature} <span>°C</span>`;
-                    }
-                });
-        }
-        setTimeout(() => {
-            fetchTemperature();
-            setInterval(fetchTemperature, 3000);
-        }, 1000);
-    </script>
-    <li class="list-group-item d-flex justify-content-between align-items-start">
+    <li class="list-group-item d-flex justify-content-between align-items-start" id="humidity-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Humidity</div>
         </div>
-        <span class="badge text-bg-success rounded-pill">80 <span>%</span></span>
+        <span class="badge text-bg-success rounded-pill" id="humidity-value">-- <span>%</span></span>
     </li>
-    <li class="list-group-item d-flex justify-content-between align-items-start">
+    <li class="list-group-item d-flex justify-content-between align-items-start" id="co2-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">CO2</div>
         </div>
-        <span class="badge text-bg-danger rounded-pill">800 <span>ppm</span></span>
+        <span class="badge text-bg-danger rounded-pill" id="co2-value">-- <span>ppm</span></span>
     </li>
-    <li class="list-group-item d-flex justify-content-between align-items-start">
+    <li class="list-group-item d-flex justify-content-between align-items-start" id="plant-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Plant</div>
         </div>
-        <span class="badge text-bg-success rounded-pill">14 <span>%</span></span>
+        <span class="badge text-bg-success rounded-pill" id="plant-value">-- <span>%</span></span>
     </li>
 </ol>
+<script>
+    function fetchAndUpdate(url, elementId, unit) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const key = Object.keys(data).find(k => k !== 'error');
+                if (key && data[key] !== undefined) {
+                    document.getElementById(elementId).innerHTML = `${data[key]} <span>${unit}</span>`;
+                }
+            });
+    }
+    function pollAll() {
+        fetchAndUpdate('/api/light/', 'light-value', '%');
+        fetchAndUpdate('/api/temperature/', 'temperature-value', '°C');
+        fetchAndUpdate('/api/humidity/', 'humidity-value', '%');
+        fetchAndUpdate('/api/co2/', 'co2-value', 'ppm');
+        fetchAndUpdate('/api/planty/', 'plant-value', '%');
+    }
+    pollAll();
+    setInterval(pollAll, 3000);
+</script>
