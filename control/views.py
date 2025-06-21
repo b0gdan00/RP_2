@@ -4,10 +4,13 @@ from django.http import JsonResponse
 from .models import Sensor, Mechanism
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .data_collectors import collect_data
+from threading import Thread
 
 
 arduino = ArduinoSerial()
 
+Thread(target=collect_data).start()
 
 def index(request):
 
@@ -29,45 +32,29 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def get_co2(request):
+    if request.method == 'GET':
+        try:
+            
+            return JsonResponse({'co2': Sensor.objects.get(name="co2").value})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
 def get_temperature(request):
     if request.method == 'GET':
         try:
-            sensor = Sensor.objects.get(name="temperature")
-            temp = arduino.send_command("temp")  # или нужная тебе команда
-            sensor.value = temp
-            sensor.save()
-            return JsonResponse({'temperature': temp})
+            return JsonResponse({'temperature': Sensor.objects.get(name="temperature").value})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-
-def get_humidity(request):
-    if request.method == 'GET':
-        try:
-            sensor = Sensor.objects.get(name="hiumidity")
-            humidity = arduino.send_command(
-                "humidity")  # или нужная тебе команда
-            sensor.value = humidity
-            sensor.save()
-            return JsonResponse({'humidity': humidity})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
 
 
 def get_light(request):
     if request.method == 'GET':
         try:
-            sensor = Sensor.objects.get(name="light")
-            raw_light = arduino.send_command("light")  # или нужная тебе команда
-
-            # Конвертация: 68 (макс. свет) -> 100%, 800 (макс. темнота) -> 0%
-            min_val, max_val = 68, 800
-            percent = (max_val - float(raw_light)) / (max_val - min_val) * 100
-            percent = max(0, min(100, percent))  # Ограничить диапазон 0-100
-
-            sensor.value = round(percent,0)
-            sensor.save()
-            return JsonResponse({'light': round(percent,0)})
+            return JsonResponse({'light': Sensor.objects.get(name="light").value})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 

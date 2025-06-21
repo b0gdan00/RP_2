@@ -4,7 +4,7 @@ from .views import *
 urlpatterns = [
     path('', index),
     path('api/temperature/', get_temperature, name='get_temperature'),
-    path("api/humidity/", get_humidity, name="get_humidity"),
+    path("api/co2/", get_co2, name="get_co2"),
     path("api/light/", get_light, name="get_light"),
     path("api/planty/", get_planty, name="get_planty"),
     path('update_heater/', update_heater, name='update_heater'),
