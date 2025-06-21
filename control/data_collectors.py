@@ -10,6 +10,7 @@ def collect_data():
     co2_sensor = Sensor.objects.get(name="co2")
     light_sensor = Sensor.objects.get(name="light")
     temperature_sensor = Sensor.objects.get(name="temperature")
+    humidity_sensor = Sensor.objects.get(name="humidity")
     
     while True:
         temperature = arduino.send_command("temp")
@@ -29,4 +30,10 @@ def collect_data():
         co2 = arduino.send_command("co2")
         co2_sensor.value = co2
         co2_sensor.save()
+        sleep(1)
+        
+        humidity = arduino.send_command("humidity")
+        humidity_sensor = Sensor.objects.get(name="humidity")
+        humidity_sensor.value = humidity
+        humidity_sensor.save()
         sleep(1)

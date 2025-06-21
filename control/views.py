@@ -59,6 +59,13 @@ def get_light(request):
             return JsonResponse({'error': str(e)}, status=500)
 
 
+def get_humidity(request):
+    if request.method == 'GET':
+        try:
+            return JsonResponse({'humidity': Sensor.objects.get(name="humidity").value})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
 def get_planty(request):
     if request.method == 'GET':
         try:
