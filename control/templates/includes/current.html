@@ -4,12 +4,25 @@
             <div class="fw-bold">Current values</div>
         </div>
     </li>
-    <li class="list-group-item d-flex justify-content-between align-items-start">
+    <li class="list-group-item d-flex justify-content-between align-items-start" id="light-list-item">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Light</div>
         </div>
-        <span class="badge text-bg-success rounded-pill">600 <span>Lm</span></span>
+        <span class="badge text-bg-success rounded-pill" id="light-value">-- <span>Lm</span></span>
     </li>
+    <script>
+        function fetchLight() {
+            fetch('/api/light/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.light !== undefined) {
+                        document.getElementById('light-value').innerHTML = `${data.light} <span>Lm</span>`;
+                    }
+                });
+        }
+        fetchLight();
+        setInterval(fetchLight, 5000);
+    </script>
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             <div class="fw-bold">Temperature</div>
