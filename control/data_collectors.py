@@ -37,3 +37,4 @@ def collect_data():
         humidity_sensor.value = humidity
         humidity_sensor.save()
         sleep(1)
+        print(f"Data collected: Temperature={temperature}, Light={light}, CO2={co2}, Humidity={humidity}")
