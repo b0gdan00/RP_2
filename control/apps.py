@@ -10,4 +10,5 @@ class ControlConfig(AppConfig):
             from threading import Thread
             from .data_collectors import collect_data
             print('Starting data collection thread...')
-            Thread(target=collect_data, daemon=True).start()
+            t = Thread(target=collect_data, daemon=True).start()
+            t.join()  # Wait for the thread to finish (optional, can be removed if you want it to run indefinitely)
